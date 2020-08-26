@@ -1,13 +1,28 @@
 package parking;
 
+import org.apache.commons.lang3.StringUtils;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.runners.MockitoJUnitRunner;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.*;
 
+@RunWith(MockitoJUnitRunner.class)
 public class VipParkingStrategyTest {
+
+    @Mock
+    CarDao carDao;
+
+
+    @InjectMocks
+    VipParkingStrategy vipParkingStrategy;
 
 	@Test
     public void testPark_givenAVipCarAndAFullParkingLog_thenGiveAReceiptWithCarNameAndParkingLotName() {
@@ -63,6 +78,12 @@ public class VipParkingStrategyTest {
          * You may refactor the code, or try to use
          * use @RunWith(MockitoJUnitRunner.class), @Mock (use Mockito, not PowerMock) and @InjectMocks
          */
+
+        // given
+        Car car = this.createMockCar("A");
+        when(carDao.isVip(car.getName())).thenReturn(true);
+        // then
+        assertTrue(vipParkingStrategy.isAllowOverPark(car));
     }
 
     @Test
@@ -72,6 +93,11 @@ public class VipParkingStrategyTest {
          * You may refactor the code, or try to use
          * use @RunWith(MockitoJUnitRunner.class), @Mock (use Mockito, not PowerMock) and @InjectMocks
          */
+        // given
+        Car car = this.createMockCar("B");
+        when(carDao.isVip(car.getName())).thenReturn(true);
+        // then
+        assertFalse(vipParkingStrategy.isAllowOverPark(car));
     }
 
     @Test
