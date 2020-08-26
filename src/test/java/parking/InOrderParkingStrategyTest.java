@@ -3,8 +3,7 @@ package parking;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 public class InOrderParkingStrategyTest {
 
@@ -34,20 +33,39 @@ public class InOrderParkingStrategyTest {
 
         /* Exercise 1, Write a test case on InOrderParkingStrategy.createNoSpaceReceipt()
          * With using Mockito to mock the input parameter */
+        // given
+        Car car = mock(Car.class);
+        when(car.getName()).thenReturn("car1");
+
+        // when
+        InOrderParkingStrategy inOrderParkingStrategy = new InOrderParkingStrategy();
+        Receipt receipt = inOrderParkingStrategy.createNoSpaceReceipt(car);
+
+        // then
+        assertEquals("car1", receipt.getCarName());
+        assertEquals("No Parking Lot", receipt.getParkingLotName());
 
     }
 
     @Test
-    public void testPark_givenNoAvailableParkingLot_thenCreateNoSpaceReceipt(){
+    public void testPark_givenNoAvailableParkingLot_thenCreateNoSpaceReceipt() {
 
-	    /* Exercise 2: Test park() method. Use Mockito.spy and Mockito.verify to test the situation for no available parking lot */
-
+        /* Exercise 2: Test park() method. Use Mockito.spy and Mockito.verify to test the situation for no available parking lot */
+        // given
+        InOrderParkingStrategy inOrderParkingStrategy = spy(new InOrderParkingStrategy());
+        Car car = mock(Car.class);
+        doReturn(null).when(inOrderParkingStrategy).createNoSpaceReceipt(car);
+        // when
+        inOrderParkingStrategy.park(null,car);
+        // then
+        verify(inOrderParkingStrategy).createNoSpaceReceipt(car);
     }
 
     @Test
     public void testPark_givenThereIsOneParkingLotWithSpace_thenCreateReceipt(){
 
         /* Exercise 2: Test park() method. Use Mockito.spy and Mockito.verify to test the situation for one available parking lot */
+
 
     }
 
