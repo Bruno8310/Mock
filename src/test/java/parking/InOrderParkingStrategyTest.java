@@ -90,12 +90,12 @@ public class InOrderParkingStrategyTest {
         ParkingLot parkingLotTwo = mock(ParkingLot.class);
         parkingLots.add(parkingLotOne);
         parkingLots.add(parkingLotTwo);
-        when(parkingLotOne.isFull()).thenReturn(true);
-        when(parkingLotTwo.isFull()).thenReturn(false);
+        when(parkingLotOne.isFull()).thenReturn(false);
+        when(parkingLotTwo.isFull()).thenReturn(true);
         // when
         inOrderParkingStrategy.park(parkingLots, car);
         // then
-        verify(inOrderParkingStrategy).createReceipt(parkingLotTwo, car);
+        verify(inOrderParkingStrategy).createReceipt(parkingLotOne, car);
 
     }
 
